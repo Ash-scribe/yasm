@@ -1,1 +1,1 @@
-# yasm
+Yet another ssh manager
