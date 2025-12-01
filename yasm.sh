@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+path=~/.ssh/config
+
 #Main loop
 while getopts ":w" option; do
 	case ${option} in
@@ -9,9 +11,9 @@ while getopts ":w" option; do
 			read -p "Enter IP address: " ip
 			read -p "Enter ssh key algorithm: " key
 			read -p "Enter username: " user
-			echo -e "Host $host" >> ~/.ssh/config
-			echo -e "\tHostname $ip" >> ~/.ssh/config
-			echo -e "\tHostKeyAlgorithms +$key" >> ~/.ssh/config
-			echo -e "\tUser $user" >> ~/.ssh/config
+			echo -e "\nHost $host" >> $path
+			echo -e "\tHostname $ip" >> $path
+			echo -e "\tHostKeyAlgorithms +$key" >> $path
+			echo -e "\tUser $user" >> $path
 	esac
 done
