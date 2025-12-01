@@ -13,7 +13,9 @@ while getopts ":w" option; do
 			read -p "Enter username: " user
 			echo -e "\nHost $host" >> $path
 			echo -e "\tHostname $ip" >> $path
-			echo -e "\tHostKeyAlgorithms +$key" >> $path
+			if [ -n "$key" ]; then
+				echo -e "\tHostKeyAlgorithms +$key" >> $path
+			fi
 			echo -e "\tUser $user" >> $path
 	esac
 done
