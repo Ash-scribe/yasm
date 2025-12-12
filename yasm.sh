@@ -2,7 +2,11 @@
 
 path=~/.ssh/config
 
-#Main loop
+grep -iw host $path | cut -d ' ' -f 2
+read -p "Enter hostname: " host
+ssh $host
+exit
+# Loop with options
 while getopts ":w" option; do
 	case ${option} in
 		w) #Create new record in config
