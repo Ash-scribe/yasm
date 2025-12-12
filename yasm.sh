@@ -4,8 +4,14 @@ path=~/.ssh/config
 
 grep -iw host $path | cut -d ' ' -f 2
 read -p "Enter hostname: " host
-ssh $host
-exit
+
+timeout 5 ssh $host
+if [[ $? != 0 ]]
+then
+	echo "Timeout"
+	exit;
+fi
+exit;
 # Loop with options
 while getopts ":w" option; do
 	case ${option} in
