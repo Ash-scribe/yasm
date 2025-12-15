@@ -32,11 +32,9 @@ done
 #List all hosts
 grep -iw host $path_config | cut -d ' ' -f 2
 read -p "Enter hostname: " host
-
-timeout 5 ssh $host
-if [[ $? != 0 ]]
-then
+ssh -o ConnectTimeout=5 "$host"
+if [[ $? -ne 0 ]]; then
 	echo "Timeout"
-	exit;
+	exit 1
 fi
-exit;
+exit
