@@ -43,7 +43,7 @@ while getopts ":w,f,t" option; do
 	esac
 done
 
-#List all hosts
+#Connect using ssh
 get_host_names
 ssh -o ConnectTimeout=3 "$host"
 #if [[ $? -ne 0 ]]; then
