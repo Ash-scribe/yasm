@@ -21,7 +21,7 @@ while getopts ":w,f" option; do
 		f) #Flush ssh key
 			path_key=~/.ssh/known_hosts
 			read -p "Enter hostname: " host
-			ip=$(awk '/'$host'/ {getline; print}' $path_config | cut -d ' ' -f 2)
+			ip=$(awk '/\<'$host'\>/ {getline; print}' $path_config | cut -d ' ' -f 2)
 			ssh-keygen -f $path_key -R $ip 
 			exit;;	
 		\?) #Invalid option
@@ -32,7 +32,7 @@ done
 #List all hosts
 grep -iw host $path_config | cut -d ' ' -f 2
 read -p "Enter hostname: " host
-ssh -o ConnectTimeout=5 "$host"
+ssh -o ConnectTimeout=3 "$host"
 if [[ $? -ne 0 ]]; then
 	echo "Timeout"
 	exit 1
