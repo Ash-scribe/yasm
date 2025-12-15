@@ -2,8 +2,18 @@
 
 path_config=~/.ssh/config
 
+get_host_names(){
+	grep -iw host $path_config | cut -d ' ' -f 2
+	read -p "Enter hostname: " host
+}
+
+get_ip(){
+	path_key=~/.ssh/known_hosts
+	ip=$(awk '/\<'$host'\>/ {getline; print}' $path_config | cut -d ' ' -f 2)
+}
+
 #Loop with options
-while getopts ":w,f" option; do
+while getopts ":w,f,t" option; do
 	case ${option} in
 		w) #Create new record in config
 			read -p "Enter hostname: " host
@@ -18,10 +28,14 @@ while getopts ":w,f" option; do
 			fi
 			echo -e "\tUser $user" >> $path_config
 			exit;;
+		t) #Use telnet
+			get_host_names
+			get_ip
+			telnet $ip	
+			exit;;
 		f) #Flush ssh key
-			path_key=~/.ssh/known_hosts
 			read -p "Enter hostname: " host
-			ip=$(awk '/\<'$host'\>/ {getline; print}' $path_config | cut -d ' ' -f 2)
+			get_ip
 			ssh-keygen -f $path_key -R $ip 
 			exit;;	
 		\?) #Invalid option
@@ -30,11 +44,10 @@ while getopts ":w,f" option; do
 done
 
 #List all hosts
-grep -iw host $path_config | cut -d ' ' -f 2
-read -p "Enter hostname: " host
+get_host_names
 ssh -o ConnectTimeout=3 "$host"
-if [[ $? -ne 0 ]]; then
-	echo "Timeout"
-	exit 1
-fi
+#if [[ $? -ne 0 ]]; then
+#	echo "Timeout"
+#	exit 1
+#fi
 exit
