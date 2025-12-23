@@ -13,7 +13,7 @@ get_ip(){
 }
 
 #Loop with options
-while getopts ":w,f,t" option; do
+while getopts ":w,f,t,h" option; do
 	case ${option} in
 		w) #Create new record in config
 			read -p "Enter hostname: " host
@@ -38,6 +38,8 @@ while getopts ":w,f,t" option; do
 			get_ip
 			ssh-keygen -f $path_key -R $ip 
 			exit;;	
+		h)	echo "Options: -w to Create new record in config. -t to use telnet instead of ssh. -f to flush ssh key"
+			exit;;
 		\?) #Invalid option
 			echo "Invalid option"
 	esac
