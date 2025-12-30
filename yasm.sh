@@ -38,10 +38,15 @@ while getopts ":w,f,t,h" option; do
 			get_ip
 			ssh-keygen -f $path_key -R $ip 
 			exit;;	
-		h)	echo "Options: -w to Create new record in config. -t to use telnet instead of ssh. -f to flush ssh key"
+		h)	
+			echo "Options:"
+			echo "-w to Create new record in config."
+			echo "-t to use telnet instead of ssh."
+			echo "-f to flush ssh key"
 			exit;;
 		\?) #Invalid option
-			echo "Invalid option"
+			echo "Invalid option. Type -h for help."
+			exit;;
 	esac
 done
 
